@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <title>Mathbirthdays</title>
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU"
+            crossorigin="anonymous"
+        />
+    </head>
+    <body>
+        <div class="container">
+            <h2 class="mb-5 mt-3 text-center">Mathbirthdays</h2>
+            <div class="mb-3">
+                <label for="formGroupExampleInput" class="form-label"
+                    >select your date of birth</label
+                >
+                <input
+                    type="date"
+                    class="form-control"
+                    id="formGroupExampleInput"
+                />
+            </div>
+
+            <div id="response"></div>
+        </div>
+        <script
+            type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"
+        ></script>
+        <script
+            type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/locale/es.js"
+        ></script>
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
+            crossorigin="anonymous"
+        ></script>
+        <script type="text/javascript">
+            let dateControl = document.querySelector('input[type="date"]');
+            let now = moment();
+            let currentDay = now.format("YYYY-MM-DD");
+            let day = moment();
+            let mathBirthday;
+            dateControl.value = currentDay;
+            dateControl.onchange = function() {
+                let dateOfBirth = moment(dateControl.value, "YYYY-MM-DD");
+                let daysDifference = now.diff(dateOfBirth, "days");
+                if (daysDifference <= 0) {
+                    let addDays = mathBirthday;
+                    let response = JSON.stringify(
+                        dateOfBirth.add(addDays, "d")._d
+                    );
+                    let text = document.getElementById("response");
+                    text.innerText =
+                        "Your next math birthday is your " +
+                        mathBirthday +
+                        "-days-old on " +
+                        response.substring(3, 11) +
+                        " date";
+                } else {
+                    for (var i = 1; i <= daysDifference; i++) {
+                        mathBirthday = 10 ** i;
+                        if (mathBirthday > daysDifference) {
+                            let addDays = mathBirthday;
+                            let response = JSON.stringify(
+                                dateOfBirth.add(addDays, "d")._d
+                            );
+                            let text = document.getElementById("response");
+                            text.innerText =
+                                "Your next math birthday is your " +
+                                mathBirthday +
+                                "-days-old on " +
+                                response.substring(1, 11) +
+                                " date";
+                            break;
+                        }
+                    }
+                }
+            };
+        </script>
+    </body>
+</html>
